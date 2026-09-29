@@ -1,0 +1,97 @@
+<!doctype html>
+<!--
+  Sands of Kemet - Google sign-in page for the game (hosted free on GitHub Pages).
+  The game opens this page with ?link=XXXXXXXX; the page signs in with Google through
+  Supabase, then hands the session to the game with the complete_login() database
+  function (backend/supabase/migrations/0002_login_links.sql).
+  SUPABASE_URL / SUPABASE_ANON_KEY below are filled in by tools/online/publish_pages.sh
+  (the anon key is public by design).
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign in - Sands of Kemet</title>
+<style>
+  body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+         background: #0b0906; color: #c9d2e0; font: 17px/1.5 Georgia, serif; text-align: center; }
+  .card { max-width: 420px; margin: 16px; padding: 32px 24px; border: 2px solid #8c7038;
+          border-radius: 8px; background: #0d1426; }
+  h1 { color: #ffd966; font-size: 26px; margin: 0 0 12px; }
+  button { margin-top: 18px; padding: 12px 22px; font: inherit; color: #ffd966; background: #121b2c;
+           border: 2px solid #d9a640; border-radius: 6px; cursor: pointer; }
+  .small { color: #8a93a3; font-size: 14px; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>Sands of Kemet</h1>
+  <p id="msg">One moment...</p>
+  <div id="extra"></div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = "https://vkzlypxdbswlvotkcduw.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZremx5cHhkYnN3bHZvdGtjZHV3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA2OTgwMzIsImV4cCI6MjEwNjI3NDAzMn0.hq5cs1fM7xt58EkTM3GcRfyg_n6Of42u9kPvxrpGl3Q";
+
+const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY,
+  {auth: {flowType: "pkce", persistSession: true, detectSessionInUrl: false}});
+const params = new URLSearchParams(location.search);
+const link = params.get("link") || sessionStorage.getItem("kemet_link") || "";
+const msg = (text) => document.getElementById("msg").textContent = text;
+const extra = (html) => document.getElementById("extra").innerHTML = html;
+
+async function finish() {
+  let session = null;
+  if (params.get("code")) {
+    const {data, error} = await client.auth.exchangeCodeForSession(params.get("code"));
+    if (error) { msg("Sign-in did not finish: " + error.message); return; }
+    session = data.session;
+  }
+  if (!session) { msg("Sign-in did not finish. Go back to the game and try again."); return; }
+
+  const {error} = await client.rpc("complete_login", {
+    p_link: link, p_access_token: session.access_token,
+    p_refresh_token: session.refresh_token, p_expires_in: session.expires_in});
+  sessionStorage.removeItem("kemet_link");
+  // Forget the session in this browser only, WITHOUT signing out: signOut()
+  // (even scope "local") ends the session on the server, and the game is now
+  // using that session.
+  for (const key of Object.keys(localStorage)) {
+    if (key.startsWith("sb-")) localStorage.removeItem(key);
+  }
+  history.replaceState(null, "", location.pathname);
+  if (error) {
+    msg("This sign-in link has expired. Go back to the game and tap Sign in again.");
+    return;
+  }
+  msg("Signed in as " + (session.user.email || "you") + ".");
+  extra('<p class="small">You can close this page and go back to Sands of Kemet.</p>');
+}
+
+function start() {
+  if (!/^[A-Z2-9]{8}$/.test(link)) {
+    msg("This sign-in link is not valid. Go back to the game and tap Sign in again.");
+    return;
+  }
+  sessionStorage.setItem("kemet_link", link);
+  msg("Sign in with your Google account to play.");
+  const button = document.createElement("button");
+  button.textContent = "Continue with Google";
+  button.onclick = () => client.auth.signInWithOAuth({provider: "google", options: {
+    redirectTo: location.origin + location.pathname,
+    queryParams: {prompt: "select_account"}}});
+  document.getElementById("extra").appendChild(button);
+  button.click();
+}
+
+if (params.get("error")) {
+  msg("Sign-in was cancelled: " + (params.get("error_description") || params.get("error")));
+} else if (params.get("code")) {
+  finish();
+} else {
+  start();
+}
+</script>
+</body>
+</html>
