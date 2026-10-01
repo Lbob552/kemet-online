@@ -1,0 +1,144 @@
+<!doctype html>
+<!--
+  Sands of Kemet - Google sign-in (GitHub Pages). Two ways in:
+   * from the website ("Sign in" on the handbook): signs in and returns to the
+     home page, which shows the player's profile. Signing in the first time
+     creates the account (registration).
+   * from the game (?link=XXXXXXXX): signs in and hands the session to the game
+     with complete_login() (backend/supabase/migrations/0002_login_links.sql),
+     then forgets it in this browser.
+  The two keep their sessions under different storage keys, so a game sign-in
+  never touches the website's (and vice versa).
+  SUPABASE_URL / SUPABASE_ANON_KEY are filled in by tools/online/publish_pages.sh.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign in - Sands of Kemet</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Marcellus&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+         background: linear-gradient(rgba(11,9,6,.72), rgba(11,9,6,.95)), url(../img/world/heroes_banner.webp) center/cover, #0b0906;
+         color: #c9d2e0; font: 17px/1.5 Marcellus, Georgia, serif; text-align: center; }
+  .card { max-width: 420px; margin: 16px; padding: 32px 24px; border: 2px solid #8c7038; border-radius: 10px; background: rgba(13,20,38,.96); }
+  h1 { color: #ffd966; font: 700 28px Cinzel, Georgia, serif; margin: 0 0 12px; }
+  button, a.btn { display: inline-block; margin-top: 18px; padding: 12px 22px; font: inherit; color: #ffd966; background: #121b2c;
+           border: 2px solid #d9a640; border-radius: 6px; cursor: pointer; text-decoration: none; }
+  .small { color: #8a93a3; font-size: 14px; }
+  .small a { color: #e6c170; }
+  .code { margin: 14px 0 4px; color: #ffd966; font: 700 30px/1.2 Cinzel, Georgia, serif; letter-spacing: 4px; }
+  .warn { color: #e8a87c; font-size: 15px; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>Sands of Kemet</h1>
+  <p id="msg">One moment...</p>
+  <div id="extra"></div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js" integrity="sha384-Rj26LVGvoeRVR6+mwQmFfcR3QOBEwT+ZmuCWpuiqeTzJpCs0ER4ITAWGb4Hiy3Ok" crossorigin="anonymous"></script>
+<script>
+const SUPABASE_URL = "https://vkzlypxdbswlvotkcduw.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZremx5cHhkYnN3bHZvdGtjZHV3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA2OTgwMzIsImV4cCI6MjEwNjI3NDAzMn0.hq5cs1fM7xt58EkTM3GcRfyg_n6Of42u9kPvxrpGl3Q";
+const HOME = new URL("../", location.href).href;
+
+const params = new URLSearchParams(location.search);
+// ?next=join/ (the Join page): come back there after signing in instead of the profile.
+if (/^[a-z]+\/$/.test(params.get("next") || "")) sessionStorage.setItem("kemet_next", params.get("next"));
+function afterSignIn() {
+  const next = sessionStorage.getItem("kemet_next");
+  sessionStorage.removeItem("kemet_next");
+  return next ? HOME + next : HOME + "#profile";
+}
+if (params.get("link")) sessionStorage.setItem("kemet_link", params.get("link"));
+const link = sessionStorage.getItem("kemet_link") || "";
+const fromGame = link !== "";
+
+const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {auth: {
+  flowType: "pkce", detectSessionInUrl: false, autoRefreshToken: !fromGame,
+  storageKey: fromGame ? "kemet-game-link" : "kemet-web", persistSession: true}});
+const msg = (text) => document.getElementById("msg").textContent = text;
+const extra = (html) => document.getElementById("extra").innerHTML = html;
+
+function googleButton(label) {
+  const button = document.createElement("button");
+  button.textContent = label;
+  button.onclick = () => client.auth.signInWithOAuth({provider: "google", options: {
+    redirectTo: location.origin + location.pathname, queryParams: {prompt: "select_account"}}});
+  document.getElementById("extra").appendChild(button);
+  return button;
+}
+
+async function finishGame(session) {
+  const {error} = await client.rpc("complete_login", {
+    p_link: link, p_access_token: session.access_token,
+    p_refresh_token: session.refresh_token, p_expires_in: session.expires_in});
+  sessionStorage.removeItem("kemet_link");
+  // Forget the game's session in this browser WITHOUT signing out: signOut()
+  // ends the session on the server, and the game is now using it.
+  for (const key of Object.keys(localStorage)) {
+    if (key.startsWith("kemet-game-link")) localStorage.removeItem(key);
+  }
+  history.replaceState(null, "", location.pathname);
+  if (error) { msg("This sign-in link has expired. Go back to the game and tap Sign in again."); return; }
+  msg("Signed in as " + (session.user.email || "you") + ".");
+  extra('<p class="small">You can close this page and go back to Sands of Kemet.</p>');
+}
+
+async function main() {
+  if (params.get("error")) {
+    sessionStorage.removeItem("kemet_link");
+    msg("Sign-in was cancelled: " + (params.get("error_description") || params.get("error")));
+    extra('<a class="btn" href="./">Try again</a>');
+    return;
+  }
+  if (params.get("code")) {
+    const {data, error} = await client.auth.exchangeCodeForSession(params.get("code"));
+    if (error || !data.session) { msg("Sign-in did not finish" + (error ? ": " + error.message : ".")); extra('<a class="btn" href="./">Try again</a>'); return; }
+    if (fromGame) return finishGame(data.session);
+    location.replace(afterSignIn());
+    return;
+  }
+  if (fromGame) {
+    if (!/^[A-Z2-9]{8}$/.test(link)) { sessionStorage.removeItem("kemet_link"); msg("This sign-in link is not valid. Go back to the game and tap Sign in again."); return; }
+    // Never straight on to Google: whoever made this link gets the account it
+    // signs in. The player checks the code against their own game first.
+    msg("Your game is waiting for this sign-in. It shows the same code:");
+    const code = document.createElement("div");
+    code.className = "code";
+    code.textContent = link.slice(0, 4) + "-" + link.slice(4);
+    document.getElementById("extra").appendChild(code);
+    const warn = document.createElement("p");
+    warn.className = "warn";
+    warn.textContent = "Only continue if you just tapped Sign in in Sands of Kemet yourself and it shows this code. " +
+      "If someone sent you this link, close this page - continuing would give them your account.";
+    document.getElementById("extra").appendChild(warn);
+    googleButton("It's my game - continue with Google");
+    const cancel = document.createElement("a");
+    cancel.className = "small";
+    cancel.href = "../";
+    cancel.textContent = "Not me - cancel";
+    cancel.style.display = "block";
+    cancel.style.marginTop = "14px";
+    cancel.onclick = () => sessionStorage.removeItem("kemet_link");
+    document.getElementById("extra").appendChild(cancel);
+    return;
+  }
+  // From the website: already signed in? Straight to the profile.
+  const {data} = await client.auth.getSession();
+  if (data.session) { location.replace(afterSignIn()); return; }
+  msg("Sign in or create your account with Google. Your account holds your three online characters.");
+  googleButton("Continue with Google");
+  extra2();
+}
+function extra2() {
+  const p = document.createElement("p");
+  p.className = "small";
+  p.innerHTML = 'By signing in you agree to the <a href="../terms/">Terms</a> and <a href="../privacy/">Privacy Policy</a>. <br><a href="../">Back to Sands of Kemet</a>';
+  document.getElementById("extra").appendChild(p);
+}
+main();
+</script>
+</body>
+</html>

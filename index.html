@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sands of Kemet</title>
+<meta name="description" content="The Nile runs black and the gods have gone mad. Sands of Kemet is an action RPG through ancient Egypt: free the gods, win back the Divine Ankh, face Apophis. Play alone or with friends.">
+<meta property="og:title" content="Sands of Kemet">
+<meta property="og:description" content="The Nile runs black. The gods have gone mad. Kemet has one warrior left.">
+<meta property="og:image" content="img/world/splash.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Marcellus&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="site.css">
+<script>document.documentElement.classList.add("js");</script>
+</head>
+<body class="home">
+<header class="topbar">
+  <a class="brand" href="#top">Sands of Kemet</a>
+  <nav class="links">
+    <a href="#story">Story</a><a href="#world">The road</a><a href="#become">Heroes &amp; gods</a><a href="handbook/">Handbook</a>
+  </nav>
+  <div class="account">
+    <a class="btn small glow join-top" id="join-btn" href="join/">Join now</a>
+    <a class="btn small ghost" id="login-btn" href="login/">Sign in</a>
+    <button class="chip" id="me-chip" hidden><img id="me-avatar" alt=""><span id="me-name"></span></button>
+  </div>
+</header>
+
+<section class="splash" id="top">
+  <div class="splash-art" style="background-image:url(img/world/splash.webp)"></div>
+  <div class="sun" aria-hidden="true"></div>
+  <div class="dust" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="splash-text">
+    <p class="eyebrow">An action RPG of ancient Egypt</p>
+    <h1>Sands of Kemet</h1>
+    <p class="tagline">The Nile runs black.<br>The gods have gone mad.<br><span>Kemet has one warrior left.</span></p>
+    <div class="cta" id="cta-out"><a class="btn glow" href="join/">Join now</a><a class="btn ghost" href="#story">Hear the story</a></div>
+    <div class="cta" id="cta-in" hidden><a class="btn glow" href="#profile">Your characters</a><a class="btn ghost" href="join/#step2">Download the game</a></div>
+    <p class="splash-note">Play alone, or with friends online.</p>
+  </div>
+  <a class="scroll-cue" href="#story" aria-label="Scroll to the story"></a>
+</section>
+
+<main>
+<section id="profile" class="profile" hidden>
+  <div class="profile-head">
+    <img id="profile-avatar" alt="">
+    <div><h2 id="profile-name"></h2><p class="muted" id="profile-meta"></p></div>
+    <button class="btn small ghost" id="signout-btn">Sign out</button>
+  </div>
+  <div class="slots" id="slots"></div>
+  <p class="muted small-note">Create, play and delete characters in the game: <b>Play Online</b> on the title screen. Each account has three character slots.</p>
+</section>
+
+<section id="story" class="story">
+  <div class="beat reveal"><span class="numeral">I</span><h2>Beneath the world, Ra fought Apophis.</h2><p>Their war in the Duat tore a rift under the Nile.</p></div>
+  <div class="beat reveal"><span class="numeral">II</span><h2>Through it bled Isfet.</h2><p>The chaos that Ma'at was made to hold back. The river turned to sludge, and every god it touched went mad. Their temples became strongholds for monsters.</p></div>
+  <div class="beat reveal"><span class="numeral">III</span><h2>You are the last free warrior of Kemet.</h2><p>Free the gods. Win back the 7 fragments of the Divine Ankh. Seal the gate of the Underworld.</p></div>
+</section>
+</main>
+
+<div class="frieze" aria-label="The gods of Kemet, drowned in Isfet"><div class="frieze-track"><img src="img/cards/khnum.webp" alt="Khnum" loading="lazy"><img src="img/cards/satet.webp" alt="Satet" loading="lazy"><img src="img/cards/isis.webp" alt="Isis" loading="lazy"><img src="img/cards/set.webp" alt="Set" loading="lazy"><img src="img/cards/horus.webp" alt="Horus" loading="lazy"><img src="img/cards/amun.webp" alt="Amun" loading="lazy"><img src="img/cards/mut.webp" alt="Mut" loading="lazy"><img src="img/cards/osiris.webp" alt="Osiris" loading="lazy"><img src="img/cards/sobek.webp" alt="Sobek" loading="lazy"><img src="img/cards/thoth.webp" alt="Thoth" loading="lazy"><img src="img/cards/ptah.webp" alt="Ptah" loading="lazy"><img src="img/cards/sekhmet.webp" alt="Sekhmet" loading="lazy"><img src="img/cards/ra.webp" alt="Ra" loading="lazy"><img src="img/cards/atum.webp" alt="Atum" loading="lazy"><img src="img/cards/hathor.webp" alt="Hathor" loading="lazy"><img src="img/cards/anubis.webp" alt="Anubis" loading="lazy"><img src="img/cards/khnum.webp" alt="Khnum" loading="lazy"><img src="img/cards/satet.webp" alt="Satet" loading="lazy"><img src="img/cards/isis.webp" alt="Isis" loading="lazy"><img src="img/cards/set.webp" alt="Set" loading="lazy"><img src="img/cards/horus.webp" alt="Horus" loading="lazy"><img src="img/cards/amun.webp" alt="Amun" loading="lazy"><img src="img/cards/mut.webp" alt="Mut" loading="lazy"><img src="img/cards/osiris.webp" alt="Osiris" loading="lazy"><img src="img/cards/sobek.webp" alt="Sobek" loading="lazy"><img src="img/cards/thoth.webp" alt="Thoth" loading="lazy"><img src="img/cards/ptah.webp" alt="Ptah" loading="lazy"><img src="img/cards/sekhmet.webp" alt="Sekhmet" loading="lazy"><img src="img/cards/ra.webp" alt="Ra" loading="lazy"><img src="img/cards/atum.webp" alt="Atum" loading="lazy"><img src="img/cards/hathor.webp" alt="Hathor" loading="lazy"><img src="img/cards/anubis.webp" alt="Anubis" loading="lazy"></div></div>
+<p class="frieze-caption">Every god you free returns to the light.</p>
+
+<main>
+<section id="world" class="road">
+  <h2 class="reveal">The Road North</h2>
+  <p class="intro reveal">From the First Cataract to the mountains of Sinai: nine regions along the Nile, each held by a god you have to free. <span class="ankh">☥</span> marks a fragment of the Ankh.</p>
+  <ol class="stops"><li class="stop reveal"><div class="stop-art"><img src="img/regions/abu.webp" alt="" loading="lazy"><img class="stop-god" src="img/cards/isis.webp" alt="" loading="lazy"></div><div><p class="eyebrow">I · <span class="ankh" title="An Ankh fragment waits here">☥</span></p><h3>Abu <small>Elephantine</small></h3><p>Where the river enters Egypt. Khnum&#x27;s shrine above the cataract, Isis&#x27;s island under a storm.</p></div></li><li class="stop reveal"><div class="stop-art"><img src="img/regions/djeba.webp" alt="" loading="lazy"><img class="stop-god" src="img/cards/horus.webp" alt="" loading="lazy"></div><div><p class="eyebrow">II</p><h3>Djeba <small>Apollonopolis Magna</small></h3><p>Horus&#x27;s great temple, held by a shadow of Set.</p></div></li><li class="stop reveal"><div class="stop-art"><img src="img/regions/waset.webp" alt="" loading="lazy"><img class="stop-god" src="img/cards/amun.webp" alt="" loading="lazy"></div><div><p class="eyebrow">III · <span class="ankh" title="An Ankh fragment waits here">☥</span></p><h3>Waset <small>Thebes</small></h3><p>Thebes of the hundred gates. Its hidden king has turned on his own city.</p></div></li><li class="stop reveal"><div class="stop-art"><img src="img/regions/abdju.webp" alt="" loading="lazy"><img class="stop-god" src="img/cards/osiris.webp" alt="" loading="lazy"></div><div><p class="eyebrow">IV · <span class="ankh" title="An Ankh fragment waits here">☥</span></p><h3>Abdju <small>Abydos</small></h3><p>Osiris lies torn apart in his own sanctuary. Make him whole.</p></div></li><li class="stop reveal"><div class="stop-art"><img src="img/regions/shedet.webp" alt="" loading="lazy"><img class="stop-god" src="img/cards/sobek.webp" alt="" loading="lazy"></div><div><p class="eyebrow">V · <span class="ankh" title="An Ankh fragment waits here">☥</span></p><h3>Shedet <small>Crocodilopolis</small></h3><p>The Faiyum&#x27;s lake has gone green and rotten, and its crocodile lord with it.</p></div></li><li class="stop reveal"><div class="stop-art"><img src="img/regions/khemenu.webp" alt="" loading="lazy"><img class="stop-god" src="img/cards/thoth.webp" alt="" loading="lazy"></div><div><p class="eyebrow">VI · <span class="ankh" title="An Ankh fragment waits here">☥</span></p><h3>Khemenu <small>Hermopolis Magna</small></h3><p>City of the Eight, where Thoth&#x27;s wisdom has curdled into rage.</p></div></li><li class="stop reveal"><div class="stop-art"><img src="img/regions/men_nefer.webp" alt="" loading="lazy"><img class="stop-god" src="img/cards/ptah.webp" alt="" loading="lazy"></div><div><p class="eyebrow">VII · <span class="ankh" title="An Ankh fragment waits here">☥</span></p><h3>Men-nefer <small>Memphis</small></h3><p>Behind the White Walls, Ptah&#x27;s colossus walks.</p></div></li><li class="stop reveal"><div class="stop-art"><img src="img/regions/iunu.webp" alt="" loading="lazy"><img class="stop-god" src="img/cards/ra.webp" alt="" loading="lazy"></div><div><p class="eyebrow">VIII · <span class="ankh" title="An Ankh fragment waits here">☥</span></p><h3>Iunu <small>Heliopolis</small></h3><p>The city of the sun. Ra&#x27;s own soul burns as the Bennu bird.</p></div></li><li class="stop reveal"><div class="stop-art"><img src="img/regions/mefkat.webp" alt="" loading="lazy"><img class="stop-god" src="img/cards/sun_key.webp" alt="" loading="lazy"></div><div><p class="eyebrow">IX</p><h3>Mefkat <small>Sinai</small></h3><p>The turquoise mountains. The serpent waits for the Ankh.</p></div></li><li class="stop reveal side"><div class="stop-art"><img src="img/regions/rostau.webp" alt="" loading="lazy"><img class="stop-god" src="img/cards/anubis.webp" alt="" loading="lazy"></div><div><p class="eyebrow">Beneath the road</p><h3>Rostau <small>the Duat</small></h3><p>A hidden door in Waset opens on the Duat, where Anubis keeps the scales.</p></div></li></ol>
+</section>
+
+<section id="become" class="become">
+  <h2 class="reveal">What You Become</h2>
+  <div class="tiles">
+    <article class="tile reveal"><div class="tile-art portraits"><img src="img/heroes/qeni.webp" alt="" loading="lazy"><img src="img/heroes/waab.webp" alt="" loading="lazy"><img src="img/heroes/hekawy.webp" alt="" loading="lazy"><img src="img/heroes/nesheny.webp" alt="" loading="lazy"></div><h3>Choose a hero</h3><p>8 heroes, from the Medjay warrior with sword and shield to the desert hunter and the long bow.</p></article>
+    <article class="tile reveal"><div class="tile-art cards"><img src="img/cards/isis.webp" alt="" loading="lazy"><img src="img/cards/ra.webp" alt="" loading="lazy"></div><h3>Carry the gods</h3><p>Earn 56 Heka Cards from quests, bosses and trials. Wear them like gear, or raise a god's aura around you.</p></article>
+    <article class="tile reveal"><div class="tile-art cards single"><img src="img/cards/anubis.webp" alt="" loading="lazy"></div><h3>Become a god</h3><p>Summon a god and fight in their form, with ×3.0 health and ×2.0 attack. The gods grow stronger the more you use them.</p></article>
+    <article class="tile reveal"><div class="tile-art portraits duo"><img src="img/heroes/hekawy.webp" alt="" loading="lazy"><img src="img/heroes/qeni.webp" alt="" loading="lazy"></div><h3>Walk it together</h3><p>Friends in the same region share the world and the fight. Everyone who strikes shares the kill, and each player gets their own loot. You can also play the whole story offline.</p></article>
+  </div>
+</section>
+
+<section id="more" class="more">
+  <h2 class="reveal">When You Want the Details</h2>
+  <p class="intro reveal">The handbook has all of it: every region and quest, every god and card, the full bestiary, gear and trials.</p>
+  <div class="numbers reveal"><a class="num" href="handbook/#world"><b>9</b><span>regions on the road north</span></a><a class="num" href="handbook/#gods"><b>56</b><span>gods to meet, free or defeat</span></a><a class="num" href="handbook/#heroes"><b>8</b><span>heroes to begin as</span></a><a class="num" href="handbook/#bestiary"><b>51</b><span>creatures and bosses</span></a><a class="num" href="handbook/#world"><b>64</b><span>quests</span></a><a class="num" href="handbook/#items"><b>187</b><span>pieces of gear</span></a><a class="num" href="handbook/#trials"><b>14</b><span>trials of the gods</span></a><a class="num" href="handbook/#cast"><b>71</b><span>people of Kemet</span></a></div>
+  <p class="reveal"><a class="btn" href="handbook/">Open the handbook</a></p>
+</section>
+</main>
+
+<section class="final">
+  <p class="final-line">Ma'at will not restore itself.</p>
+  <a class="btn glow" href="join/">Join now</a>
+</section>
+
+<footer class="site-foot">
+  <p>&copy; 2026 Sands of Kemet · <a href="handbook/">Handbook</a> · <a href="privacy/">Privacy Policy</a> · <a href="terms/">Terms of Service</a> · <a href="mailto:ehabnaga1@gmail.com">Contact</a></p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js" integrity="sha384-Rj26LVGvoeRVR6+mwQmFfcR3QOBEwT+ZmuCWpuiqeTzJpCs0ER4ITAWGb4Hiy3Ok" crossorigin="anonymous"></script>
+<script>
+const GAME = {"heroes": {"qeni": "Qeni", "waab": "Wa'ab", "hekawy": "Hekawy", "nesheny": "Nesheny", "desert_queen": "Isis", "anubis": "Anubis the Warrior", "dark_fighter": "Dark Fighter", "nebet_het": "Nebet-Het", "wadj_ra": "Wadj-Ra", "sekhet": "Sekhet"}, "regions": {"res://scenes/khnum_shrine.tscn": "Khnum's Shrine", "res://scenes/pyramid_desert.tscn": "Rostau", "res://scenes/nile_banks.tscn": "Shedet", "res://scenes/philae_island.tscn": "Pilak", "res://scenes/edfu.tscn": "Djeba", "res://scenes/waset.tscn": "Waset", "res://scenes/temple_of_horus.tscn": "Temple of Horus", "res://scenes/abydos.tscn": "Abdju", "res://scenes/hermopolis.tscn": "Khemenu", "res://scenes/memphis.tscn": "Men-nefer", "res://scenes/heliopolis.tscn": "Iunu", "res://scenes/mount_sinai.tscn": "Mefkat"}, "fragments": 7, "cards": 56};
+const SUPABASE_URL = "https://vkzlypxdbswlvotkcduw.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZremx5cHhkYnN3bHZvdGtjZHV3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA2OTgwMzIsImV4cCI6MjEwNjI3NDAzMn0.hq5cs1fM7xt58EkTM3GcRfyg_n6Of42u9kPvxrpGl3Q";
+const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY,
+  {auth: {storageKey: "kemet-web", persistSession: true, autoRefreshToken: true, detectSessionInUrl: false}});
+const $ = (id) => document.getElementById(id);
+const esc = (t) => String(t ?? "").replace(/[&<>"']/g, (c) => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"}[c]));
+
+function ago(iso) {
+  if (!iso) return "never";
+  const s = (Date.now() - new Date(iso).getTime()) / 1000;
+  if (s < 90) return "just now";
+  if (s < 5400) return Math.round(s / 60) + " minutes ago";
+  if (s < 129600) return Math.round(s / 3600) + " hours ago";
+  return Math.round(s / 86400) + " days ago";
+}
+
+function characterCard(c) {
+  const save = c.save || {};
+  const quests = Object.values(save.philae_quests || {}).filter((q) => q && q.state === "completed").length;
+  const cards = (save.god_cards || []).length;
+  const hero = GAME.heroes[c.hero_id] || c.hero_id;
+  const region = GAME.regions[c.region] || "Khnum's Shrine";
+  return `<article class="slot">
+    <p class="eyebrow">Slot ${c.slot + 1}</p><h3>${esc(c.name)}</h3>
+    <p class="hero-name">${esc(hero)} · Level ${esc(c.level)}</p>
+    <div class="stats">
+      <span>In <b>${esc(region)}</b></span>
+      <span>Ankh fragments <b>${esc(save.ankh_fragments || 0)} / ${GAME.fragments}</b></span>
+      <span>Heka Cards <b>${cards} / ${GAME.cards}</b></span>
+      <span>Quests done <b>${quests}</b></span>
+      <span>Deben <b>${esc(save.gear_count || 0)}</b></span>
+      ${save.game_completed ? "<span><b>Kemet restored ✦</b></span>" : ""}
+    </div>
+    <p class="muted">Last played ${ago(c.played_at)}</p></article>`;
+}
+
+async function showProfile(session) {
+  const user = session.user;
+  const meta = user.user_metadata || {};
+  const name = meta.full_name || meta.name || user.email;
+  const avatar = meta.avatar_url || meta.picture || "";
+  $("login-btn").hidden = true;
+  $("join-btn").hidden = true;
+  $("me-chip").hidden = false;
+  $("me-name").textContent = name.split(" ")[0];
+  $("me-avatar").src = avatar; $("me-avatar").hidden = !avatar;
+  $("cta-out").hidden = true; $("cta-in").hidden = false;
+  $("profile").hidden = false;
+  $("profile-name").textContent = name;
+  $("profile-avatar").src = avatar; $("profile-avatar").hidden = !avatar;
+  const [{data: profile}, {data: chars, error}] = await Promise.all([
+    client.from("profiles").select("created_at,is_admin").eq("id", user.id).maybeSingle(),
+    client.from("characters").select("slot,name,hero_id,level,region,played_at,save").eq("user_id", user.id).is("deleted_at", null).order("slot"),
+  ]);
+  $("profile-meta").textContent = user.email + (profile ? " · member since " + new Date(profile.created_at).toLocaleDateString() : "") + (profile && profile.is_admin ? " · Admin" : "");
+  const slots = [];
+  for (let i = 0; i < 3; i++) {
+    const c = (chars || []).find((x) => x.slot === i);
+    slots.push(c ? characterCard(c) : `<article class="slot empty"><p class="eyebrow">Slot ${i + 1}</p><h3>Empty</h3><p class="muted">Create a character in the game: Play Online.</p></article>`);
+  }
+  $("slots").innerHTML = error ? `<p class="muted">Couldn't load your characters (${esc(error.message)}).</p>` : slots.join("");
+}
+
+$("me-chip").onclick = () => { location.hash = "profile"; $("profile").scrollIntoView({behavior: "smooth"}); };
+$("signout-btn").onclick = async () => { await client.auth.signOut({scope: "local"}); location.href = location.pathname; };
+
+const reveals = document.querySelectorAll(".reveal");
+if ("IntersectionObserver" in window) {
+  const io = new IntersectionObserver((entries) => entries.forEach((e) => {
+    if (e.isIntersecting) { e.target.classList.add("seen"); io.unobserve(e.target); }
+  }), {rootMargin: "0px 0px -8% 0px"});
+  reveals.forEach((el) => io.observe(el));
+} else {
+  reveals.forEach((el) => el.classList.add("seen"));
+}
+
+client.auth.getSession().then(({data}) => { if (data.session) showProfile(data.session); });
+</script>
+</body>
+</html>
