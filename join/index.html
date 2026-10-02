@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-spcEEHl67beThgcb731A40xiAtab0C+8igTBcFksmB4='; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.googleusercontent.com; font-src 'self'; connect-src 'self' https://vkzlypxdbswlvotkcduw.supabase.co; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Join Sands of Kemet</title>
+<meta name="description" content="Join Sands of Kemet in three steps: create your account, download the game, play.">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0b0906">
+<link rel="stylesheet" href="../fonts/fonts.css">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../site.css">
+</head>
+<body class="join-page">
+<header class="topbar">
+  <a class="brand" href="../">Sands of Kemet</a>
+  <nav class="links"><a href="../#story">Story</a><a href="../handbook/">Handbook</a></nav>
+</header>
+
+<main class="join" style="--art:url(../img/world/splash.webp)">
+  <h1>Join the journey</h1>
+  <p class="intro">Three steps and you are on the Nile.</p>
+
+  <ol class="stepper" id="stepper">
+    <li data-step="1"><button type="button"><span class="dot">1</span><span class="label">Register</span></button></li>
+    <li data-step="2"><button type="button"><span class="dot">2</span><span class="label">Download</span></button></li>
+    <li data-step="3"><button type="button"><span class="dot">3</span><span class="label">Play</span></button></li>
+  </ol>
+
+  <section class="step-panel" data-panel="1">
+    <p class="eyebrow">Step 1 of 3</p>
+    <h2>Create your account</h2>
+    <div id="reg-out">
+      <p>Sign in with Google. The first time creates your account, with three character slots saved online so your journey follows you to any device.</p>
+      <a class="btn glow" href="../login/?next=join/">Continue with Google</a>
+      <p class="muted small-note">Only want to play offline? <a href="#" data-go="2">Skip to the download</a>. You can make an account later.</p>
+    </div>
+    <div id="reg-in" hidden>
+      <p class="done-line">✓ Signed in as <b id="reg-name"></b>.</p>
+      <button type="button" class="btn glow" data-go="2">Next: download</button>
+    </div>
+  </section>
+
+  <section class="step-panel" data-panel="2" hidden>
+    <p class="eyebrow">Step 2 of 3</p>
+    <h2>Download the game</h2>
+    <p>Sands of Kemet is on Android. Download the APK on your phone or tablet and open it to install. If Android asks, allow installs from your browser.</p><a class="btn glow" id="apk-link" href="https://github.com/Lbob552/kemet-online/releases/download/apk/kemet.apk" download rel="noopener noreferrer">Download for Android</a><p class="muted small-note">version 1.0.2 &middot; 74 MB. The download is small. On first launch the game fetches the rest of Kemet, so start it on Wi-Fi.</p><p class="muted small-note">Check the file before you install it: its SHA-256 is <code class="hash">15093c5f39a4b90c23140a1b6da65c398fb59c2290790d34a58e263f45b603e9</code>.</p>
+    <p class="step-nav"><button type="button" class="btn ghost small" data-go="1">Back</button> <button type="button" class="btn small" data-go="3">I've installed it</button></p>
+  </section>
+
+  <section class="step-panel" data-panel="3" hidden>
+    <p class="eyebrow">Step 3 of 3</p>
+    <h2>Play</h2>
+    <ol class="play-steps">
+      <li>Open <b>Sands of Kemet</b>.</li>
+      <li>Tap <b>Play Online</b> and sign in with the same Google account.</li>
+      <li>Create your character, choose a hero, and begin at Abu, by the First Cataract.</li>
+    </ol>
+    <p class="muted">Playing offline instead? Tap <b>Play Offline</b>: the whole story is there, saved on your device.</p>
+    <p class="step-nav"><button type="button" class="btn ghost small" data-go="2">Back</button> <a class="btn small" href="../#profile" id="see-profile" hidden>See your characters</a> <a class="btn small" href="../handbook/">Read the handbook</a></p>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <p>&copy; 2026 Sands of Kemet · <a href="../">Home</a> · <a href="../privacy/">Privacy Policy</a> · <a href="../terms/">Terms of Service</a> · <a href="mailto:ehabnaga1@gmail.com">Contact</a></p>
+</footer>
+
+<script src="../vendor/supabase-js-2.117.2.js" integrity="sha384-Rj26LVGvoeRVR6+mwQmFfcR3QOBEwT+ZmuCWpuiqeTzJpCs0ER4ITAWGb4Hiy3Ok" crossorigin="anonymous"></script>
+<script>
+const SUPABASE_URL = "https://vkzlypxdbswlvotkcduw.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZremx5cHhkYnN3bHZvdGtjZHV3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA2OTgwMzIsImV4cCI6MjEwNjI3NDAzMn0.hq5cs1fM7xt58EkTM3GcRfyg_n6Of42u9kPvxrpGl3Q";
+const $ = (id) => document.getElementById(id);
+const done = new Set();
+let current = 1;
+
+function store(key, value) { try { localStorage.setItem(key, value); } catch (e) {} }
+function stored(key) { try { return localStorage.getItem(key); } catch (e) { return null; } }
+
+function show(step) {
+  current = step;
+  document.querySelectorAll(".step-panel").forEach((p) => p.hidden = Number(p.dataset.panel) !== step);
+  document.querySelectorAll("#stepper li").forEach((li) => {
+    const n = Number(li.dataset.step);
+    li.classList.toggle("active", n === step);
+    li.classList.toggle("done", done.has(n) && n !== step);
+    li.querySelector(".dot").textContent = done.has(n) && n !== step ? "✓" : n;
+  });
+  history.replaceState(null, "", "#step" + step);
+}
+
+document.addEventListener("click", (e) => {
+  const go = e.target.closest("[data-go]");
+  const tab = e.target.closest("#stepper button");
+  if (go) { e.preventDefault(); if (Number(go.dataset.go) > current) done.add(current); show(Number(go.dataset.go)); }
+  else if (tab) show(Number(tab.parentElement.dataset.step));
+});
+if ($("apk-link")) $("apk-link").addEventListener("click", () => { done.add(2); store("kemet_downloaded", "1"); });
+
+if (stored("kemet_downloaded")) done.add(2);
+const fromHash = Number((location.hash.match(/^#step([123])$/) || [])[1]);
+show(fromHash || 1);
+
+if (SUPABASE_URL.startsWith("http") && window.supabase) {
+  const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY,
+    {auth: {storageKey: "kemet-web", persistSession: true, autoRefreshToken: true, detectSessionInUrl: false}});
+  client.auth.getSession().then(({data}) => {
+    if (!data.session) return;
+    const meta = data.session.user.user_metadata || {};
+    $("reg-name").textContent = meta.full_name || meta.name || data.session.user.email;
+    $("reg-out").hidden = true; $("reg-in").hidden = false; $("see-profile").hidden = false;
+    done.add(1);
+    show(fromHash || (done.has(2) ? 3 : 2));
+  });
+}
+</script>
+</body>
+</html>
